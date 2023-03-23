@@ -2,19 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { Auth0Provider } from "@auth0/auth0-react";
 import reportWebVitals from './reportWebVitals';
-
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { AuthProvider } from './context/AuthProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="dev-fc7frztp21rt58kc.us.auth0.com"
-      clientId="iUfTKnYvZQ8ln78lRodWpiOME6pQtkAX"
-      redirectUri={window.location.origin}
-    >
+    <AuthProvider>
       <App />
-    </Auth0Provider>
+    </AuthProvider>
   </React.StrictMode>
 );
 
