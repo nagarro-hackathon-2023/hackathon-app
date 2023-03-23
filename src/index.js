@@ -10,7 +10,7 @@ root.render(
   <React.StrictMode>
     <Auth0Provider
       domain="astonishing-begonia-8537b5.netlify.app"
-      clientId="c816fb2ec1cf48449e61d1736bb40fa3"
+      clientId="iUfTKnYvZQ8ln78lRodWpiOME6pQtkAX"
       redirectUri={window.location.origin}
     >
       <App />
