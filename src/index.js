@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Auth0Provider
-      domain="astonishing-begonia-8537b5.netlify.app"
+      domain="dev-fc7frztp21rt58kc.us.auth0.com"
       clientId="iUfTKnYvZQ8ln78lRodWpiOME6pQtkAX"
       redirectUri={window.location.origin}
     >
