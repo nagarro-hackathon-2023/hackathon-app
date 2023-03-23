@@ -5,7 +5,6 @@ import LogoutButton from './components/auth/auth0/LogoutButton';
 import Profile from './components/auth/auth0/Profile';
 
 import { useAuth0 } from "@auth0/auth0-react";
-import logo from './logo.png';
 
 
 function App() {
@@ -18,7 +17,6 @@ function App() {
 
   return (
     <div className="app">
-      <img src={logo} width="50px" alt="logo"/>
       {
         isLoading
           ? <h3> Loading ... </h3>
