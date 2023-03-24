@@ -7,6 +7,12 @@ class UserService {
   getCurrentUser() {
     return axios.get(API_URL + 'me', { headers: authHeader() });
   }
+  getTopArtist() {
+    return axios.get(API_URL + 'me/top/artists', { headers: authHeader() });
+  }
+  getTopTracks() {
+    return axios.get(API_URL + 'me/top/tracks', { headers: authHeader() });
+  }
 }
 
 export default new UserService();
