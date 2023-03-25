@@ -4,8 +4,12 @@
   }
 
   .playlist-container {
-    max-height: 400px;
+    max-height: 330px;
     overflow-y: scroll;
+  }
+
+  .playlist-container .track-item {
+    padding: 10px;
   }
 
   .playlist-container::-webkit-scrollbar {
