@@ -12,7 +12,7 @@ import AuthContext from '../../context/AuthProvider';
 function Login() {
   const scopes = 'user-read-private user-read-email user-top-read streaming user-read-playback-state user-modify-playback-state';
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  const REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
+  const REDIRECT_URI = window.location.href;
   const AUTH_ENDPOINT = process.env.REACT_APP_SPOTIFY_AUTH_ENDPOINT;
   const RESPONSE_TYPE = process.env.REACT_APP_SPOTIFY_RESPONSE_TYPE;
   const loginUrl = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${scopes}`;

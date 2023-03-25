@@ -121,20 +121,20 @@ function Home() {
   useEffect(() => {
     setCurrentTrack('https://open.spotify.com/track/2cbaCL38j8eUXBQjvLawET');
     const token = window.localStorage.getItem("token");
-    userService.getCurrentUser().then(({ data }) => {
-          setAuth({
-            token,
-            user: {
-              id: data.id,
-              name: data.display_name,
-              image: data.images.length > 0 ? data.images[0] : imageUrl,
-            }
-          });
-        console.log('user', data);
-    });
-    userService.getTopTracks().then((x) => {
-        console.log(x);
-    });
+    // userService.getCurrentUser().then(({ data }) => {
+    //       setAuth({
+    //         token,
+    //         user: {
+    //           id: data.id,
+    //           name: data.display_name,
+    //           image: data.images.length > 0 ? data.images[0] : imageUrl,
+    //         }
+    //       });
+    //     console.log('user', data);
+    // });
+    // userService.getTopTracks().then((x) => {
+    //     console.log(x);
+    // });
   }, []);
 
 
