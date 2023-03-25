@@ -112,7 +112,7 @@ const Content =  ({ onGetEmotions }) => {
             <MDBFile id='userImage'  accept="image/png, image/gif, image/jpg, image/jpeg" />
           </MDBCol>
           <MDBCol size='12'>
-            <MDBBtn type='submit'>Fing Music</MDBBtn>
+            <MDBBtn type='submit'>Find Music</MDBBtn>
           </MDBCol>
       </MDBRow>
       </form>
