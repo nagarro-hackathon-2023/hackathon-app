@@ -10,7 +10,7 @@ import {
 import './Login.css';
 import AuthContext from '../../context/AuthProvider';
 function Login() {
-  const scopes = 'user-read-private user-read-email user-top-read streaming user-read-playback-state user-modify-playback-state';
+  const scopes = 'user-read-private user-read-email user-top-read user-read-playback-state user-modify-playback-state playlist-modify-public';
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   const REDIRECT_URI = window.location.href;
   const AUTH_ENDPOINT = process.env.REACT_APP_SPOTIFY_AUTH_ENDPOINT;

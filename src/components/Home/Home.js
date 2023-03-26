@@ -7,12 +7,14 @@ import {
   MDBListGroupItem,
   MDBRow,
   MDBCol,
-  MDBFile
+  MDBFile,
+  MDBIcon
 } from 'mdb-react-ui-kit';
 import './Home.css';
 import AuthContext from '../../context/AuthProvider';
 import userService from "../../services/user.service";
 import faceService from "../../services/face.service";
+import playlistService from "../../services/playlist.service";
 
 
 const Bottonbar = ({ trackUrl }) => {
@@ -36,11 +38,13 @@ const Sidebar = ({ user }) => (
   </div>
 );
 
-const Content =  ({ onGetEmotions }) => {
+const Content =  ({ onGetEmotions, onCreatePlaylist }) => {
   const { setAuth } = useContext(AuthContext);
+  const [ hasPlayList, setHasPlaylist ] = useState(false);
   let navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
+    setHasPlaylist(false);
     const { userImage } = e.target.elements;
     const data = new FormData();
     data.append('file', userImage.files[0]);
@@ -48,52 +52,20 @@ const Content =  ({ onGetEmotions }) => {
     // console.log(result);
     const tracks = [
       {
+        id: "5nPOpB9GqZO70ZKiPLfJ26",
         imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/3ohQknrCZwxPoke6Dy2L7S',
+        trackUrl: 'https://open.spotify.com/track/5nPOpB9GqZO70ZKiPLfJ26',
         name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
       },
       {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/3ohQknrCZwxPoke6Dy2L7S',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/3ohQknrCZwxPoke6Dy2L7S',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/3ohQknrCZwxPoke6Dy2L7S',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/3ohQknrCZwxPoke6Dy2L7S',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/3ohQknrCZwxPoke6Dy2L7S',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/1pDOFak83OlJVuXnMRkXHq',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/7t2pQVJ3tCbrEBg9uDz0qb',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/album/4ejdjD4ByhxyBEFtlYWBcI',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
+        id: '4ejdjD4ByhxyBEFtlYWBcI',
+        imageUrl: 'https://i.scdn.co/image/ab67616d00004851ad703a8ded84a3645348e087',
+        trackUrl: 'https://open.spotify.com/track/65nGdOtsiYlZ1uP8pi4DlZ',
+        name: "Mast Nazron Se"
       }
     ];
     onGetEmotions(tracks);
+    setHasPlaylist(true);
   };
 
   const handleLogout = () => {
@@ -116,8 +88,13 @@ const Content =  ({ onGetEmotions }) => {
           </MDBCol>
       </MDBRow>
       </form>
-      <MDBBtn size='sm' rounded color='link' onClick={handleLogout}>
-        Logout
+      {hasPlayList && 
+        <MDBBtn size='sm' rounded color='success' onClick={onCreatePlaylist}>
+          <MDBIcon className='me-2' fab icon='spotify' /> Create Playlist
+        </MDBBtn>
+      }
+      <MDBBtn size='sm' outline rounded color='info' onClick={handleLogout}>
+        <MDBIcon className='me-2' fas icon='sign-out-alt' /> Logout
       </MDBBtn>
     </div>
   );
@@ -141,13 +118,22 @@ const PlayList = ({ track, onTrackClick }) => {
         </div>
       </div>
       <MDBBtn size='sm' rounded color='link' onClick={handlePlayClick}>
-        Play
+        Select
       </MDBBtn>
     </MDBListGroupItem>
   )
 };
 
+const Loader = () => (
+  <div className='overlay'>
+    <div className='spinner'></div>
+    <br/>
+    Loading...
+  </div>
+);
+
 function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const { setAuth } = useContext(AuthContext);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
@@ -177,17 +163,26 @@ function Home() {
   };
 
   const onGetEmotions = data => {
+    setIsLoading(true);
     setTracks(data);
     setCurrentTrack(data[0].trackUrl);
+    setIsLoading(false);
   }
+
+  const onCreatePlaylist = async () => {
+    setIsLoading(true);
+    await playlistService.createPlayList(currentUser.id, tracks);
+    setIsLoading(false);
+  };
 
   return (
     <div className='d-flex flex-column vh-100 background-radial-gradient overflow-hidden'>
+      { isLoading && <Loader /> }
       <main className="flex-grow-1">
         <div className="rounded">
           <div className="row bg-white m-3">
             {currentUser && <Sidebar user={currentUser} />}
-            <Content onGetEmotions={ onGetEmotions }/>
+            <Content onGetEmotions={ onGetEmotions } onCreatePlaylist = {onCreatePlaylist} />
           </div>
           <div className='row bg-white m-3 playlist-container'>
             <div>
