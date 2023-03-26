@@ -116,13 +116,13 @@ const PlayList = ({ track, onTrackClick }) => {
   )
 };
 
-const Loader = () => {
+const Loader = () => (
   <div className='overlay'>
     <div className='spinner'></div>
     <br/>
     Loading...
   </div>
-};
+);
 
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
