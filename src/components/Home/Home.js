@@ -45,15 +45,19 @@ const Content =  ({ onGetEmotions, onCreatePlaylist, onGetEmotionStarted }) => {
   let navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
-    onGetEmotionStarted();
     const { userImage } = e.target.elements;
-    const file = userImage.files[0];
-    const fileType = file.type.match('image.*') ? 'image' : 'video';
-    const data = new FormData();
-    data.append('file', file);
-    const result = await faceService.getUserEmotion(data, fileType);  
-    onGetEmotions(result.data);
-    setHasPlaylist(true);
+    if (userImage.files.length > 0) {
+      onGetEmotionStarted();
+      const file = userImage.files[0];
+      const fileType = file.type.match('image.*') ? 'image' : 'video';
+      const data = new FormData();
+      data.append('file', file);
+      const result = await faceService.getUserEmotion(data, fileType);
+      onGetEmotions(result);
+      setHasPlaylist(true);
+    } else {
+      toast.error('Please upload file.');
+    }
   };
 
   const handleLogout = () => {
@@ -112,13 +116,13 @@ const PlayList = ({ track, onTrackClick }) => {
   )
 };
 
-const Loader = () => (
+const Loader = () => {
   <div className='overlay'>
     <div className='spinner'></div>
     <br/>
     Loading...
   </div>
-);
+};
 
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -168,6 +172,7 @@ function Home() {
     setIsLoading(true);
     await playlistService.createPlayList(currentUser.id, tracks);
     setIsLoading(false);
+    toast.success('Playlist created in spotify.');
   };
 
   const onGetEmotionStarted = () => {
