@@ -31,10 +31,10 @@ const Bottonbar = ({ trackUrl }) => {
 };
 
 const Sidebar = ({ user }) => (
-  <div className="col-md-2 border-right">
+  <div className="col-md-2 border-right mt-3">
     <div className="d-flex flex-column align-items-center text-center">
       <img className="rounded-circle" alt="user" width="100px" height="100px" src={user.image} />
-      <span className="font-weight-bold">{user.name}</span>
+      <span className="fw-bold">Hey {user.name}!</span>
     </div>
   </div>
 );
@@ -51,23 +51,8 @@ const Content =  ({ onGetEmotions, onCreatePlaylist, onGetEmotionStarted }) => {
     const fileType = file.type.match('image.*') ? 'image' : 'video';
     const data = new FormData();
     data.append('file', file);
-    const result = await faceService.getUserEmotion(data, fileType);
-    // console.log(result);
-    // const tracks = [
-    //   {
-    //     id: "5nPOpB9GqZO70ZKiPLfJ26",
-    //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-    //     trackUrl: 'https://open.spotify.com/track/5nPOpB9GqZO70ZKiPLfJ26',
-    //     name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-    //   },
-    //   {
-    //     id: '4ejdjD4ByhxyBEFtlYWBcI',
-    //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851ad703a8ded84a3645348e087',
-    //     trackUrl: 'https://open.spotify.com/track/65nGdOtsiYlZ1uP8pi4DlZ',
-    //     name: "Mast Nazron Se"
-    //   }
-    // ];
-    onGetEmotions(result);
+    const result = await faceService.getUserEmotion(data, fileType);  
+    onGetEmotions(result.data);
     setHasPlaylist(true);
   };
 
@@ -81,7 +66,7 @@ const Content =  ({ onGetEmotions, onCreatePlaylist, onGetEmotionStarted }) => {
       <form onSubmit={onSubmit}>
       <MDBRow className='row-cols-lg-auto g-3 align-items-center'>
           <MDBCol size='12'>
-            <span>Upload Face Image</span>
+            <span>Upload Image/Video</span>
           </MDBCol>
           <MDBCol size='12'>
             <MDBFile id='userImage'  accept="video/*,image/*" />
@@ -150,7 +135,7 @@ function Home() {
       const user = {
         id: data.id,
         name: data.display_name,
-        image: data.images.length > 0 ? data.images[0] : imageUrl,
+        image: data.images.length > 0 ? data.images[0].url : imageUrl,
       }
       setAuth({
         token,
