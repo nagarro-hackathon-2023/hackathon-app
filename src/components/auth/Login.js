@@ -41,16 +41,10 @@ function Login() {
       </div>
       <MDBRow className='d-flex justify-content-center align-items-center'>
         <MDBCol md='6' className='text-center text-md-start d-flex flex-column justify-content-center'>
-          <h1 className="my-5 display-3 fw-bold ls-tight px-3" style={{ color: 'hsl(218, 81%, 95%)' }}>
-            Heading Text <br />
-            <span style={{ color: 'hsl(218, 81%, 75%)' }}>sub heading</span>
+          <h1 className="my-5 display-3 ls-tight px-3" style={{ color: 'hsl(218, 81%, 95%)' }}>
+            Musicfy.AI <br />
+            <span style={{ color: 'hsl(218, 81%, 75%)', fontSize: '3rem' }}>You are what you listen to!</span>
           </h1>
-          <p className='px-3' style={{ color: 'hsl(218, 81%, 85%)' }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-            quibusdam tempora at cupiditate quis eum maiores libero
-            veritatis? Dicta facilis sint aliquid ipsum atque?
-          </p>
         </MDBCol>
         <MDBCol md='6'>
           <div className='d-flex justify-content-center align-items-center'>
@@ -59,10 +53,14 @@ function Login() {
         </MDBCol>
       </MDBRow>
       <MDBRow>
-        <MDBCol></MDBCol>
+        <MDBCol>
+        <p className='px-3' style={{ color: 'hsl(218, 81%, 85%)', height: '200px' }}>
+            <img alt="sub logo" src="./assets/sub_logo.svg"/>
+          </p>
+        </MDBCol>
         <MDBCol>
           <div className='d-flex align-items-center justify-content-center'>
-            <MDBBtn size='lg' style={{ backgroundColor: '#20b720' }} href={loginUrl}>
+            <MDBBtn size='lg' style={{ backgroundColor: '#20b720', marginTop: '20px' }} href={loginUrl}>
               <MDBIcon className='me-2' fab icon='spotify' /> Login With Spotify
             </MDBBtn>
           </div>
