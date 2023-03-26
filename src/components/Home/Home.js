@@ -38,16 +38,19 @@ const Sidebar = ({ user }) => (
   </div>
 );
 
-const Content =  ({ onGetEmotions, onCreatePlaylist }) => {
+const Content =  ({ onGetEmotions, onCreatePlaylist, onGetEmotionStarted }) => {
   const { setAuth } = useContext(AuthContext);
   const [ hasPlayList, setHasPlaylist ] = useState(false);
   let navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
-    setHasPlaylist(false);
+    onGetEmotionStarted();
     const { userImage } = e.target.elements;
+    const file = userImage.files[0];
+    const fileType = file.type.match('image.*') ? 'image' : 'video';
     const data = new FormData();
-    data.append('file', userImage.files[0]);
+    data.append('file', file);
+    data.append('fileType', fileType);
     // const result = await faceService.getUserEmotion(data);
     // console.log(result);
     const tracks = [
@@ -81,7 +84,7 @@ const Content =  ({ onGetEmotions, onCreatePlaylist }) => {
             <span>Upload Face Image</span>
           </MDBCol>
           <MDBCol size='12'>
-            <MDBFile id='userImage'  accept="image/png, image/gif, image/jpg, image/jpeg" />
+            <MDBFile id='userImage'  accept="video/*,image/*" />
           </MDBCol>
           <MDBCol size='12'>
             <MDBBtn type='submit'>Find Music</MDBBtn>
@@ -163,7 +166,6 @@ function Home() {
   };
 
   const onGetEmotions = data => {
-    setIsLoading(true);
     setTracks(data);
     setCurrentTrack(data[0].trackUrl);
     setIsLoading(false);
@@ -175,6 +177,10 @@ function Home() {
     setIsLoading(false);
   };
 
+  const onGetEmotionStarted = () => {
+    setIsLoading(true);
+  };
+
   return (
     <div className='d-flex flex-column vh-100 background-radial-gradient overflow-hidden'>
       { isLoading && <Loader /> }
@@ -182,7 +188,7 @@ function Home() {
         <div className="rounded">
           <div className="row bg-white m-3">
             {currentUser && <Sidebar user={currentUser} />}
-            <Content onGetEmotions={ onGetEmotions } onCreatePlaylist = {onCreatePlaylist} />
+            <Content onGetEmotionStarted={ onGetEmotionStarted } onGetEmotions={ onGetEmotions } onCreatePlaylist = {onCreatePlaylist} />
           </div>
           <div className='row bg-white m-3 playlist-container'>
             <div>

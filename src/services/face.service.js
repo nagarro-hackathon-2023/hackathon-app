@@ -5,7 +5,7 @@ const API_URL = 'MANISHGOYAL02.pythonanywhere.com/';
 
 class FaceService {
   getUserEmotion(data) {
-    return axios.post(API_URL + 'get_emotion', data, {
+    return axios.post(API_URL + 'get_tracks', data, {
       headers: {
         ...authHeader(),
         "Content-Type": "multipart/form-data"
