@@ -129,7 +129,7 @@ function Home() {
   const { setAuth } = useContext(AuthContext);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [tracks, setTracks] = useState([]);
+  const [playListInfo, setPlayListInfo] = useState({tracks: [], emotion: ''})
 
   const imageUrl = 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg';
   
@@ -163,14 +163,14 @@ function Home() {
     } else {
       toast.success(msg);
     }
-    setTracks(tracks);
+    setPlayListInfo({ tracks, emotion});
     setCurrentTrack(tracks[0].trackUrl);
     setIsLoading(false);
   }
 
   const onCreatePlaylist = async () => {
     setIsLoading(true);
-    await playlistService.createPlayList(currentUser.id, tracks);
+    await playlistService.createPlayList(currentUser.id, playListInfo.tracks, playListInfo.emotion);
     setIsLoading(false);
     toast.success('Playlist created in spotify.');
   };
@@ -192,7 +192,7 @@ function Home() {
           <div className='row bg-white m-3 playlist-container'>
             <div>
               <MDBListGroup style={{ minWidth: '22rem' }} light>
-                {tracks.map((track, i) => (
+                {playListInfo.tracks.map((track, i) => (
                   <PlayList key={i} track={track} onTrackClick={onTrackClick} />
                 ))}
               </MDBListGroup>

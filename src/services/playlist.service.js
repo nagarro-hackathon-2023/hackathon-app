@@ -4,9 +4,9 @@ import authHeader from './auth-header';
 const API_URL = 'https://api.spotify.com/v1/';
 
 class PlaylistService {
-    async createPlayList(userId, tracks) {
+    async createPlayList(userId, tracks, emotion) {
         const playlistInfo = {
-            "name": "Playlist_" + parseInt(Date.now() + Math.random()),
+            "name": `Musicfy recommended ${emotion} playlist`,
             "description": "New playlist created by hackathon app",
             "public": true
         };
