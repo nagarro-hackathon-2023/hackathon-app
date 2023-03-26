@@ -166,7 +166,14 @@ function Home() {
   };
 
   const onGetEmotions = ({ tracks, emotion }) => {
-    toast.success(`Emotion detected: ${ emotion }`);
+    const msg = `Emotion detected: ${ emotion }`;
+    if (emotion == 'happy') {
+      toast.success(msg);
+    } else if (emotion == 'sad') {
+      toast.error(msg);
+    } else {
+      toast.success(msg);
+    }
     setTracks(tracks);
     setCurrentTrack(tracks[0].trackUrl);
     setIsLoading(false);
