@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spotify } from 'react-spotify-embed';
+import { ToastContainer, toast } from 'react-toastify';
 import {
   MDBBtn,
   MDBListGroup,
@@ -50,24 +51,23 @@ const Content =  ({ onGetEmotions, onCreatePlaylist, onGetEmotionStarted }) => {
     const fileType = file.type.match('image.*') ? 'image' : 'video';
     const data = new FormData();
     data.append('file', file);
-    data.append('fileType', fileType);
-    // const result = await faceService.getUserEmotion(data);
+    const result = await faceService.getUserEmotion(data, fileType);
     // console.log(result);
-    const tracks = [
-      {
-        id: "5nPOpB9GqZO70ZKiPLfJ26",
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-        trackUrl: 'https://open.spotify.com/track/5nPOpB9GqZO70ZKiPLfJ26',
-        name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-      },
-      {
-        id: '4ejdjD4ByhxyBEFtlYWBcI',
-        imageUrl: 'https://i.scdn.co/image/ab67616d00004851ad703a8ded84a3645348e087',
-        trackUrl: 'https://open.spotify.com/track/65nGdOtsiYlZ1uP8pi4DlZ',
-        name: "Mast Nazron Se"
-      }
-    ];
-    onGetEmotions(tracks);
+    // const tracks = [
+    //   {
+    //     id: "5nPOpB9GqZO70ZKiPLfJ26",
+    //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
+    //     trackUrl: 'https://open.spotify.com/track/5nPOpB9GqZO70ZKiPLfJ26',
+    //     name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
+    //   },
+    //   {
+    //     id: '4ejdjD4ByhxyBEFtlYWBcI',
+    //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851ad703a8ded84a3645348e087',
+    //     trackUrl: 'https://open.spotify.com/track/65nGdOtsiYlZ1uP8pi4DlZ',
+    //     name: "Mast Nazron Se"
+    //   }
+    // ];
+    onGetEmotions(result);
     setHasPlaylist(true);
   };
 
@@ -165,9 +165,10 @@ function Home() {
     setCurrentTrack(track.trackUrl);
   };
 
-  const onGetEmotions = data => {
-    setTracks(data);
-    setCurrentTrack(data[0].trackUrl);
+  const onGetEmotions = ({ tracks, emotion }) => {
+    toast.success(`Emotion detected: ${ emotion }`);
+    setTracks(tracks);
+    setCurrentTrack(tracks[0].trackUrl);
     setIsLoading(false);
   }
 
@@ -184,6 +185,7 @@ function Home() {
   return (
     <div className='d-flex flex-column vh-100 background-radial-gradient overflow-hidden'>
       { isLoading && <Loader /> }
+      <ToastContainer />
       <main className="flex-grow-1">
         <div className="rounded">
           <div className="row bg-white m-3">
