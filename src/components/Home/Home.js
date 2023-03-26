@@ -45,30 +45,34 @@ const Content =  ({ onGetEmotions, onCreatePlaylist, onGetEmotionStarted }) => {
   let navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
-    onGetEmotionStarted();
     const { userImage } = e.target.elements;
-    const file = userImage.files[0];
-    const fileType = file.type.match('image.*') ? 'image' : 'video';
-    const data = new FormData();
-    data.append('file', file);
-    const result = await faceService.getUserEmotion(data, fileType);
-    // console.log(result);
-    // const tracks = [
-    //   {
-    //     id: "5nPOpB9GqZO70ZKiPLfJ26",
-    //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
-    //     trackUrl: 'https://open.spotify.com/track/5nPOpB9GqZO70ZKiPLfJ26',
-    //     name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
-    //   },
-    //   {
-    //     id: '4ejdjD4ByhxyBEFtlYWBcI',
-    //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851ad703a8ded84a3645348e087',
-    //     trackUrl: 'https://open.spotify.com/track/65nGdOtsiYlZ1uP8pi4DlZ',
-    //     name: "Mast Nazron Se"
-    //   }
-    // ];
-    onGetEmotions(result);
-    setHasPlaylist(true);
+    if (userImage.files.length > 0) {
+      onGetEmotionStarted();
+      const file = userImage.files[0];
+      const fileType = file.type.match('image.*') ? 'image' : 'video';
+      const data = new FormData();
+      data.append('file', file);
+      const result = await faceService.getUserEmotion(data, fileType);
+      // console.log(result);
+      // const tracks = [
+      //   {
+      //     id: "5nPOpB9GqZO70ZKiPLfJ26",
+      //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851aca38bbbc4bdaa23155b4802',
+      //     trackUrl: 'https://open.spotify.com/track/5nPOpB9GqZO70ZKiPLfJ26',
+      //     name: "Bhool Bhulaiyaa 2 Title Track (From \"Bhool Bhulaiyaa 2\")"
+      //   },
+      //   {
+      //     id: '4ejdjD4ByhxyBEFtlYWBcI',
+      //     imageUrl: 'https://i.scdn.co/image/ab67616d00004851ad703a8ded84a3645348e087',
+      //     trackUrl: 'https://open.spotify.com/track/65nGdOtsiYlZ1uP8pi4DlZ',
+      //     name: "Mast Nazron Se"
+      //   }
+      // ];
+      onGetEmotions(result);
+      setHasPlaylist(true);
+    } else {
+      toast.error('Please upload file.');
+    }
   };
 
   const handleLogout = () => {
@@ -127,13 +131,13 @@ const PlayList = ({ track, onTrackClick }) => {
   )
 };
 
-const Loader = () => (
+const Loader = () => {
   <div className='overlay'>
     <div className='spinner'></div>
     <br/>
     Loading...
   </div>
-);
+};
 
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -183,6 +187,7 @@ function Home() {
     setIsLoading(true);
     await playlistService.createPlayList(currentUser.id, tracks);
     setIsLoading(false);
+    toast.success('Playlist created in spotify.');
   };
 
   const onGetEmotionStarted = () => {
