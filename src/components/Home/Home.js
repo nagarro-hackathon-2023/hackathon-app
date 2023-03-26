@@ -53,7 +53,7 @@ const Content =  ({ onGetEmotions, onCreatePlaylist, onGetEmotionStarted }) => {
       const data = new FormData();
       data.append('file', file);
       const result = await faceService.getUserEmotion(data, fileType);
-      onGetEmotions(result);
+      onGetEmotions(result.data);
       setHasPlaylist(true);
     } else {
       toast.error('Please upload file.');
